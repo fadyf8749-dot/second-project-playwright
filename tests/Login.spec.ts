@@ -27,7 +27,7 @@ test("LogIn with API", async ({ page, request, context }) => {
   let Login = new LoginPage(page, context, request);
   await Login.loginUsingAPI();
   await Login.load();
-  //   let Logins = new LoginAPI(request);
-  //   await Logins.Logins();
   await expect(page).toHaveURL("/todo");
+  await Login.logout();
+  await expect(page).toHaveURL("/login");
 });

@@ -24,6 +24,10 @@ export default class LoginPage {
   private get submitindex() {
     return '[data-testid="submit"]';
   }
+  private get logoutIndex() {
+    return "text=Logout";
+  }
+
   async load() {
     await this.page.goto("/login");
   }
@@ -37,6 +41,9 @@ export default class LoginPage {
   async submit() {
     return await this.page.click(this.submitindex);
   }
+  async logout() {
+    await this.page.locator(this.logoutIndex).click();
+  }
 
   async loginUsingAPI() {
     let response = await new LoginAPI(this.request!).Logins();
@@ -44,7 +51,6 @@ export default class LoginPage {
     let accessToken = responseBody.access_token;
     let userID = responseBody.userID;
     let firstName = responseBody.firstName;
-    
 
     await this.context!.addCookies([
       {

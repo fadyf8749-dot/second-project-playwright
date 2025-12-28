@@ -21,6 +21,5 @@ test("sign in with API and, to be able to add a Todo", async ({
   await todopage.checkIfItsDone();
   await todopage.DeletIt();
 
-  let addTodoMassege = page.locator('[data-testid="no-todos"]');
-  await expect(addTodoMassege).toBeVisible();
+  await todopage.checkNoTasksHere();
 });

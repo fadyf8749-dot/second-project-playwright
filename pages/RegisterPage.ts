@@ -2,6 +2,7 @@ import { APIRequestContext, BrowserContext, Page } from "@playwright/test";
 import User from "../models/User";
 import config from "../playwright.config";
 import UserAPI from "../apis/UserAPI";
+import LoginAPI from "../apis/LoginAPI";
 
 export default class RegiserPage {
   private page: Page;

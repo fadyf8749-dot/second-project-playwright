@@ -23,6 +23,9 @@ export default class TodoPage {
   private get deletit() {
     return '[data-testid="delete"]';
   }
+  private get noTasksAvalable() {
+    return this.page.locator('[data-testid="no-todos"]')
+  }
 
   async load() {
     await this.page.goto("/todo");
@@ -46,5 +49,9 @@ export default class TodoPage {
 
   async addNewTaskUsingAPI(user: User) {
     await new TodoAPI(this.request!).addTodo(user);
+  }
+
+  async checkNoTasksHere() {
+    await expect(this.noTasksAvalable).toBeVisible()
   }
 }
