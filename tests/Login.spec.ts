@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import LoginPage from "../pages/LoginPage";
 import LoginAPI from "../apis/LoginAPI";
 import { request } from "node:http";
+import RegiserPage from "../pages/RegisterPage";
 
 test("Login with index, and Logout", async ({ page }) => {
   await page.goto("/login");
@@ -24,8 +25,10 @@ test("LogIn By index ReadAble", async ({ page }) => {
 });
 
 test("LogIn with API", async ({ page, request, context }) => {
-  let Login = new LoginPage(page, context, request);
-  await Login.loginUsingAPI();
+  let logwithapi = new RegiserPage(page, request, context)
+  await logwithapi.loginUsingAPI()
+
+  let Login = new LoginPage(page);
   await Login.load();
   await expect(page).toHaveURL("/todo");
   await Login.logout();

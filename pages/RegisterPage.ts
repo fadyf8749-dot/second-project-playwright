@@ -47,32 +47,60 @@ export default class RegiserPage {
     await this.page.type(this.confirmPasswordInput, user.getPassword());
     await this.page.locator(this.submitButton).click();
   }
+private async setAuthCookies(
+    accessToken: string,
+    userID: string,
+    firstName: string
+  ) {
+    await this.context!.addCookies([
+      { name: "access_token", value: accessToken, url: config.use?.baseURL },
+      { name: "userID", value: userID, url: config.use?.baseURL },
+      { name: "firstName", value: firstName, url: config.use?.baseURL },
+    ]);
+  }
 
   async registerUsingAPI(user: User) {
     let response = await new UserAPI(this.request!).register(user);
-    let responseBody = await response.json();
-    let accessToken = responseBody.access_token;
-    let userID = responseBody.userID;
-    let firstName = responseBody.firstName;
+    let { access_token, userID, firstName } = await response.json();
+    user.setgetaccessToken(access_token);
+    await this.setAuthCookies(access_token, userID, firstName);
+}
 
-    user.setgetaccessToken(accessToken);
-
-    await this.context!.addCookies([
-      {
-        name: "access_token",
-        value: accessToken,
-        url: config.use?.baseURL,
-      },
-      {
-        name: "userID",
-        value: userID,
-        url: config.use?.baseURL,
-      },
-      {
-        name: "firstName",
-        value: firstName,
-        url: config.use?.baseURL,
-      },
-    ]);
+  async loginUsingAPI() {
+    let response = await new LoginAPI(this.request!).Logins();
+    let { access_token, userID, firstName } = await response.json();
+    await this.setAuthCookies(access_token, userID, firstName);
   }
 }
+
+
+
+  
+//   async registerUsingAPI(user: User) {
+//     let response = await new UserAPI(this.request!).register(user);
+//     let responseBody = await response.json();
+//     let accessToken = responseBody.access_token;
+//     let userID = responseBody.userID;
+//     let firstName = responseBody.firstName;
+
+//     user.setgetaccessToken(accessToken);
+
+//     await this.context!.addCookies([
+//       {
+//         name: "access_token",
+//         value: accessToken,
+//         url: config.use?.baseURL,
+//       },
+//       {
+//         name: "userID",
+//         value: userID,
+//         url: config.use?.baseURL,
+//       },
+//       {
+//         name: "firstName",
+//         value: firstName,
+//         url: config.use?.baseURL,
+//       },
+//     ]);
+//   }
+// }

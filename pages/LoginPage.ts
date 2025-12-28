@@ -1,6 +1,8 @@
 import { APIRequestContext, BrowserContext, Page } from "@playwright/test";
 import config from "../playwright.config";
 import LoginAPI from "../apis/LoginAPI";
+import UserAPI from "../apis/UserAPI";
+import User from "../models/User";
 
 export default class LoginPage {
   page: Page;
@@ -44,30 +46,30 @@ export default class LoginPage {
   async logout() {
     await this.page.locator(this.logoutIndex).click();
   }
-
-  async loginUsingAPI() {
-    let response = await new LoginAPI(this.request!).Logins();
-    let responseBody = await response.json();
-    let accessToken = responseBody.access_token;
-    let userID = responseBody.userID;
-    let firstName = responseBody.firstName;
-
-    await this.context!.addCookies([
-      {
-        name: "access_token",
-        value: accessToken,
-        url: config.use?.baseURL,
-      },
-      {
-        name: "userID",
-        value: userID,
-        url: config.use?.baseURL,
-      },
-      {
-        name: "firstName",
-        value: firstName,
-        url: config.use?.baseURL,
-      },
-    ]);
-  }
+  
 }
+//     let response = await new LoginAPI(this.request!).Logins();
+//     let responseBody = await response.json();
+//     let accessToken = responseBody.access_token;
+//     let userID = responseBody.userID;
+//     let firstName = responseBody.firstName;
+
+//     await this.context!.addCookies([
+//       {
+//         name: "access_token",
+//         value: accessToken,
+//         url: config.use?.baseURL,
+//       },
+//       {
+//         name: "userID",
+//         value: userID,
+//         url: config.use?.baseURL,
+//       },
+//       {
+//         name: "firstName",
+//         value: firstName,
+//         url: config.use?.baseURL,
+//       },
+//     ]);
+//   }
+
